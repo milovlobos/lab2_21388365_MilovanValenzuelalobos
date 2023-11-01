@@ -1,5 +1,5 @@
 %predicado
-%option(code,message , ChatbotCodeLink ,InitialFlowCodeLink , Keyword , Option)
+%Option(Code,Message , ChatbotCodeLink ,InitialFlowCodeLink , Keyword , Option)
 %flow(Id, Name, option ,flow)
 %flowaddoption(flow,optiom,flow)
 %chatbot(chatbotID, name , welcomeMessage ,startFlowId ,flows,chabot)
