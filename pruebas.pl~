@@ -75,9 +75,11 @@ flow_id_existe(ID, [F | _]):- flow_id(F,I),ID=I.
 flow_id_existe(ID, [_ | Rest]) :-
     flow_id_existe(ID, Rest).
 
-chatbot_id_existe(ID,[C|_]:-
+chatbot_id_existe(ID,[C|_]):-
                   chatbot_id(C,I),
                   ID=I.
+chatbot_id_existe(ID,[_|Rest]):-
+    chatbot_id_existe(ID,Rest).
 
 
 systemAddChatbot(S,C,NS):-

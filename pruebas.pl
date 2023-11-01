@@ -34,6 +34,8 @@ option_code([Code, _, _, _, _], Code).
 flow_id([I,_,_],I).
 chatbot_id([I,_,_,_,_],I).
 system_chatbots([_,_,C|_],C).
+system_name([N,_,_|_],N).
+system_codec([_,CO,_|_],CO).
 
 
 %modificadores
@@ -83,7 +85,14 @@ chatbot_id_existe(ID,[_|Rest]):-
 
 
 systemAddChatbot(S,C,NS):-
-    system_chatbot(S,CT).
+    system_chatbots(S,CT),
+    chatbot_id(C,ID),
+    system_name(S,N),
+    system_codec(S,CO),
+     (chatbot_id_existe(ID, CT) ->
+        system(N,CO,CT,NS) ;
+        add_to_end(C, CT, Newchatbots),
+        system(N,CO, Newchatbots,NS)).
 
 
 
