@@ -4,11 +4,20 @@
 %flowaddoption(flow,optiom,flow)
 %chatbot(chatbotID, name , welcomeMessage ,startFlowId ,flows,chabot)
 % system(name,InitialChatbotCodeLink ,chatbots,system)
-%
+%systemAddUser(system,user,system)
+%systemLogin(system,user,system)
 %comillas'hola'
 % consultas
-% option(1,hola,2,2,[hola,chao],O1),option(2,chao,2,2,[hola,chao],O2),flow(1,pepe,[O1],F1),flowaddoption(O2,F1,F2),flowaddoption(O1,F2,F3),flow(2,pedrp,[F1],F4),chatbot(1,prueba,bienvenido,0,[F3],C1),chatbotAddFlow(F4,C1,C2),chatbotAddFlow(F3,C2,C3).
-% swipl -s tu_programa.pl -g ?- > salida.txt
+%   option(1,hola,3,3,[hola,chao],O1),option(3,chao,3,3,[hola,chao],O2),flow(1,pepe,[O1],F1),flowaddoption(O2,F1,F2),flowaddoption(O1,F2,F3),flow(2,pedrp,[],F4),chatbot(1,prueba,bienvenido,0,[F4],C1),chatbotAddFlow(F3,C1,C2),system(sistemap,0,[C1],S1),systemAddUser(S1,milo,S2),systemAddUser(S2,mil,S3),systemLogin(S3,milo,S4),systemLogin(S4,mil,S5),systemLogout(S5,S6),systemLogout(S6,S7).
+% utilidades
+%
+remove_element(_, [], []).
+remove_element(Element, [Element | Tail], Result) :-
+    remove_element(Element, Tail, Result).
+remove_element(Element, [Head | Tail], [Head | NewTail]) :-
+    Element \== Head,
+    remove_element(Element, Tail, NewTail).
+
 % contructores
 option(C, M, CH, I, K, [C, M, CH, I, K]).
 
@@ -19,46 +28,76 @@ chatbot(I,N,WM,SF,F,[I,N,WM,SF,F]).
 system(N,IC,C,[N,IC,C]).
 
 %
-% Predicado para obtener el código de una opción
+% Predicado para obtener el codigo de una opcion
 option_code([Code, _, _, _, _], Code).
 
 flow_id([I,_,_],I).
 chatbot_id([I,_,_,_,_],I).
+system_chatbots([_,_,C|_],C).
 
 
 %modificadores
-
 flowaddoption(Option, [Id, Name, Options], NewList) :-
-    option_code(Option, Code),                % Obtiene el código de la nueva opción
-    \+ option_code_exists(Code, Options),     % Verifica si el código de la nueva opción no existe en la lista actual
-    NewOptions = [Option | Options],         % Agrega la nueva opción al principio de la lista de opciones
-    NewList = [Id, Name, NewOptions].         % Construye la nueva lista con la opción agregada
+    option_code(Option, Code),                % Obtiene el codigo de la nueva opcion
+    \+ option_code_exists(Code, Options),     % Verifica si el codigo de la nueva opcion no existe en la lista actual
+    NewOptions = [Option | Options],         % Agrega la nueva opcion al principio de la lista de opciones
+    flow(Id, Name, NewOptions,NewList).         % Construye la nueva lista con la opcopn agregada
 
 
-% Predicado para verificar si un código de opción ya existe en la lista de opciones
+% Predicado para verificar si un codigo de opcion ya existe en la
+% lista de opciones
 option_code_exists(Code, Options) :-
-    member([ExistingCode, _, _, _, _], Options),  % Extrae el código de cada opción en Options
+    member([ExistingCode, _, _, _, _], Options),  % Extrae el codigo de cada opcion en Options
     ExistingCode = Code.
 flowaddoption(_, OriginalList, OriginalList). % en caso de no poder agregar la nueva opcion ya que ya existe su codigo retorna la lista original
 
 %chatbotAddFlow
 
-chatbotAddFow(Flow, Chatbot, NewChatbot) :-
-    chatbot_flows(Chatbot, Flows),            % Obtiene la lista de flujos actual de un chatbot
-    flow_id(Flow, FlowID),                    % Obtiene el ID del nuevo flujo
-    \+ flow_id_exists(FlowID, Flows),         % Verifica si el ID del flujo no existe en la lista actual de flujos
-    add_flow_to_end(Flow, Flows, NewFlows),    % Agrega el nuevo flujo al final de la lista de flujos
-    NewChatbot = (ChatbotID, Name, WelcomeMessage, StartFlowID, NewFlows).
-chatbotAddFlow(_, Chatbot, Chatbot).  % En caso de que no se pueda agregar el flujo, se devuelve el chatbot original.
+chatbotAddFlow(Flow, [ChatbotID, Name, WelcomeMessage, StartFlowID, Flows], NewChatbot):-
+    flow_id(Flow, FlowID),
+    (flow_id_existe(FlowID, Flows) ->
+        chatbot(ChatbotID, Name, WelcomeMessage, StartFlowID, Flows,NewChatbot) ; % El flujo ya existe, no se agrega
+        add_to_end(Flow, Flows, NewFlows),
+        chatbot(ChatbotID, Name, WelcomeMessage, StartFlowID, NewFlows,NewChatbot)
+    ).
+
 
 % Predicado para agregar un flujo al final de la lista de flujos
-add_flow_to_end(Flow, [], [Flow]).  % Caso base: si la lista está vacía, agrega el flujo al final.
-add_flow_to_end(Flow, [H | T], [H | NewTail]) :-
-    add_flow_to_end(Flow, T, NewTail).
+add_to_end(C, [], [C]).  % Caso base: si la lista esta vacia, agrega el flujo al final.
+add_to_end(C, [H | T], [H | NewTail]) :-
+    add_to_end(C,T, NewTail).
 
 % Predicado para obtener la lista de flujos de un chatbot
-chatbot_flows((_, _, _, _, Flows), Flows).
+chatbot_flows([_, _, _, _, Flows], Flows).
 
 % Predicado para verificar si un ID de flujo ya existe en la lista de flujos
-flow_id_exists(ID, Flows) :-
-    member([ID, _, _], Flows). % Extrae el ID de cada flujo en Flows
+flow_id_existe(ID, [F | _]):- flow_id(F,I),ID=I.
+flow_id_existe(ID, [_ | Rest]) :-
+    flow_id_existe(ID, Rest).
+
+chatbot_id_existe(ID,[C|_]:-
+                  chatbot_id(C,I),
+                  ID=I.
+
+
+systemAddChatbot(S,C,NS):-
+    system_chatbot(S,CT).
+
+
+
+
+systemAddUser(S, U, NS) :-
+    (   member(U, S)
+    ->  NS = S
+    ;   add_to_end(U, S, NS)
+    ).
+
+systemLogin(S, U, NS) :-
+    (member(U, S), \+ member(login, S)) ->
+    (add_to_end(login, S, NS), writeln('Sesión iniciada con éxito.'));
+    (\+ member(U,S)-> writeln('no existe el usuario'), NS = S);
+    (member(login,S)-> writeln('Ya hay una sesión iniciada.'), NS = S).
+
+systemLogout(S,NS):-
+    (   member(login,S)->remove_element(login,S,NS),writeln('sesion cerrada.'));
+    (   \+ member(login,S)-> writeln('no existe una sesion iniciada'),NS=S).
