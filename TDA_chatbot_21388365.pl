@@ -1,40 +1,38 @@
-%tda
-% tipo:selector
-% nombre:
-% Dominio:
-%Recorrido:
-% Meta:
-%
-% %tda
-% tipo:selector
-% nombre:
 consult('TDA_option_213883658.pl').
 
-% Dominio:
-%Recorrido:
-% Meta:
-
 %tda
-% tipo:selector
-% nombre:
-% Dominio:
-%Recorrido:
+% tipo:contructor
+% predicado:chatbot(chatbotID, name , welcomeMessage ,startFlowId ,flows,chabot)
+% Dominio:chatbotID(number), name(string) , welcomeMessage(string)
+% ,startFlowId(number) ,flows(lista de flujos),chabot(chatbot)
 % Meta:
-
-%tda
+%
+%
 % tipo:selector
-% nombre:
-% Dominio:
-%Recorrido:
-% Meta:
+% predicado:chatbot_id(chatbot,ID).
+% Dominio:Chatbot (chatbot),Id(number)
+% Meta:obtener el id de chatbot
 
-%tda
+%
 % tipo:selector
-% nombre:
-% Dominio:
-%Recorrido:
-% Meta:
+% predicado:chatbot_flows(chatbot, Flows)
+% Dominio:chatbot,flows(lista de flujos)
+% Meta:obtener la lista de flujos de un chatbot
 
+%
+% tipo:modificador
+% Predicado:chatbotAddFlow
+% Dominio:flow(flujo),chatbot,newchatbot(chatbot con el flujo añadido
+% en caso que se pudo)
+% Meta:modificador para añadir flujos a un chatbot.
+
+
+%
+% tipo:pertenencia
+% Predicado:flow_id_exist(ID,Flows)
+% Dominio:ID(number),Flows(lista de flujos)
+% Meta:verificar si ya existe un id dentro de una lista de flujos
+%recursion:Recursion natural
 %clausulas
 %
 chatbot(I,N,WM,SF,F,[I,N,WM,SF,F]).

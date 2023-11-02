@@ -1,8 +1,11 @@
+consult('TDA_option_213883658.pl').
+
 %tda
 % tipo:contructor
-% nombre:system
-% Dominio:Name(string),Ic,Chatbots(lista de chatbots)
-%Recorrido:system([NAAAME  ,Ic, Chattbots]).
+% predicado:system(name,InitialChatbotCodeLink ,chatbots,system)
+% Dominio:Name(string),InitialChatbotCodeLink(number),Chatbots(lista de
+% chatbots),system.
+
 % Meta:constructor de un sistema de chatbots.
 %
 % % tipo:selector
@@ -28,7 +31,7 @@
 % Dominio:
 %Recorrido:
 % Meta:
-consult('TDA_option_213883658.pl').
+
 
 % tipo:selector
 % nombre:

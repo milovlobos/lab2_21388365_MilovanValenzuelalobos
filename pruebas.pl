@@ -4,7 +4,7 @@
 %flowaddoption(flow,optiom,flow)
 %chatbot(chatbotID, name , welcomeMessage ,startFlowId ,flows,chabot)
 % system(name,InitialChatbotCodeLink ,chatbots,system)
-%systemAddUser(system,user,system)
+%SystemAddUser(system,user,system)
 %systemLogin(system,user,system)
 %comillas'hola'
 % consultas
@@ -17,6 +17,7 @@ remove_element(Element, [Element | Tail], Result) :-
 remove_element(Element, [Head | Tail], [Head | NewTail]) :-
     Element \== Head,
     remove_element(Element, Tail, NewTail).
+es_vacia([]).
 
 % contructores
 option(C, M, CH, I, K, [C, M, CH, I, K]).
@@ -25,7 +26,8 @@ flow(I,N,O,[I,N,O]).
 
 chatbot(I,N,WM,SF,F,[I,N,WM,SF,F]).
 
-system(N,IC,C,[N,IC,C]).
+system(N,IC,C,[N,IC,C,[],[]]).
+system(N,IC,C,US,L,[N,IC,C,US,L]).
 
 %
 % Predicado para obtener el codigo de una opcion
@@ -34,8 +36,11 @@ option_code([Code, _, _, _, _], Code).
 flow_id([I,_,_],I).
 chatbot_id([I,_,_,_,_],I).
 system_chatbots([_,_,C|_],C).
-system_name([N,_,_|_],N).
-system_codec([_,CO,_|_],CO).
+system_name([N,_,_,_,_],N).
+system_codec([_,CO,_,_,_],CO).
+system_user([_,_,_,U,_],U).
+system_userlog([_,_,_,_,L],L).
+
 
 
 %modificadores
@@ -98,17 +103,46 @@ systemAddChatbot(S,C,NS):-
 
 
 systemAddUser(S, U, NS) :-
-    (   member(U, S)
+    system_user(S,US),
+     system_name(S,N),
+      system_codec(S,CO),
+       system_chatbots(S,C),
+        system_userlog(S,L),
+    (   member(U, US)
     ->  NS = S
-    ;   add_to_end(U, S, NS)
-    ).
+    ;   add_to_end(U, US, NUS),
+        system(N,CO,C,NUS,L,NS) ).
 
 systemLogin(S, U, NS) :-
-    (member(U, S), \+ member(login, S)) ->
-    (add_to_end(login, S, NS), writeln('Sesión iniciada con éxito.'));
-    (\+ member(U,S)-> writeln('no existe el usuario'), NS = S);
-    (member(login,S)-> writeln('Ya hay una sesión iniciada.'), NS = S).
-
-systemLogout(S,NS):-
-    (   member(login,S)->remove_element(login,S,NS),writeln('sesion cerrada.'));
-    (   \+ member(login,S)-> writeln('no existe una sesion iniciada'),NS=S).
+    system_user(S, US),
+    system_userlog(S, L),
+    system_name(S, N),
+    system_codec(S, CO),
+    system_chatbots(S, C),
+    (member(U, US), es_vacia(L) ->
+        NL = [U],
+        writeln('Sesión iniciada con éxito.'),
+        system(N, CO, C, US, NL, NS)
+    ;
+    (\+ member(U, US) ->
+        writeln('No existe el usuario'),
+        NS = S
+    ;
+    (\+ es_vacia(L) ->
+        writeln('Ya hay una sesión iniciada.'),
+        NS = S ))).
+systemLogout(S, NS) :-
+    system_user(S, US),
+    system_userlog(S, L),
+    system_name(S, N),
+    system_codec(S, CO),
+    system_chatbots(S, C),
+    (   \+ es_vacia(L) ->
+        NL = [],
+        writeln('Sesión cerrada.'),
+        system(N, CO, C, US, NL, NS)
+    ;
+    (   es_vacia(L) ->
+        writeln('No existe una sesión iniciada.'),
+        NS = S
+    )).

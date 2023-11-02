@@ -1,6 +1,6 @@
 %tda extras
-% tipo
-% nombre:remove_element(elemto,lista,result)
+% tipo:
+% Predicado:remove_element(elemto,lista,result)
 % Dominio:elemto,lista
 %Recorrido:resultado(lista)
 % Meta:eleminar el elemnto de la lista y entregar result el cual es una
