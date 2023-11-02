@@ -28,7 +28,6 @@
 % Dominio:
 %Recorrido:
 % Meta:
-consult('TDA_option_213883658.pl').
 
 % tipo:selector
 % nombre:
@@ -52,10 +51,4 @@ systemAddChatbot(S,C,NS):-
         system(N,CO,CT,NS) ;
         add_to_end(C, CT, Newchatbots),
         system(N,CO, Newchatbots,NS)).
-
-chatbot_id_existe(ID,[C|_]):-
-                  chatbot_id(C,I),
-                  ID=I.
-chatbot_id_existe(ID,[_|Rest]):-
-    chatbot_id_existe(ID,Rest).
 

@@ -8,8 +8,6 @@
 % %tda
 % tipo:selector
 % nombre:
-consult('TDA_option_213883658.pl').
-
 % Dominio:
 %Recorrido:
 % Meta:

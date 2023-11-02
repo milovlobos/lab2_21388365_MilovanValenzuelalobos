@@ -19,15 +19,6 @@ remove_element(Element, [Head | Tail], [Head | NewTail]) :-
     Element \== Head,
     remove_element(Element, Tail, NewTail).%Conserva la cabeza de la lista si no coincide con el elemento a eliminar
 
-add_to_end(C, [], [C]).  % Caso base: si la lista esta vacia, agrega el flujo al final.
-add_to_end(C, [H | T], [H | NewTail]) :-
-    add_to_end(C,T, NewTail).
 
 
-eliminar_repetidos([], []).
-eliminar_repetidos([X|Xs], Ys) :-
-    eliminar_repetidos(Xs, Ys),
-    member(X, Ys), !.
-eliminar_repetidos([X|Xs], [X|Ys]) :-
-    eliminar_repetidos(Xs, Ys).
 
