@@ -1,29 +1,25 @@
-consult('TDA_option_213883658.pl').
+consult('TDA_system_213883658_Valenzuelalobos.pl').
+consult('TDA_extras_213883658_Valenzuelalobos.pl').
 
 %tda user
-% tipo:selector
-% Predicado:
-% Dominio:
-% Meta:
+% tipo:contructor
+% Predicado:systemAddUser(System,user,newsystem)
+% Dominio:system(lista),user(string),newsystem(lista)
+% Meta:agregar usuarios a un sitema sin que existen repetidos.
 %
-% % tipo:selector
-% Predicado:
-% Dominio:
-% Meta:
+% % tipo:modificador
+% Predicado:systemLogin(system,user,newsystem)
+% Dominio:system(lista),user(string),newsystem(lista)
+% Meta:iniciar sesion con un usuario existente dentro del sistema
 
-% tipo:selector
-% Predicado:
-% Dominio:
-% Meta:
+% tipo:modificador
+% Predicado:systemLogout(system,newsystem)
+% Dominio:system(lista),newsystem(lista)
+% Meta:cerrar sesion dentro de un sistema
 
-% tipo:selector
-% Predicado:
-% Dominio:
-% Meta:
 
 %
 % clausulas
-
 
 systemAddUser(S, U, NS) :-
     system_user(S,US),
@@ -44,7 +40,7 @@ systemLogin(S, U, NS) :-
     system_chatbots(S, C),
     (member(U, US), es_vacia(L) ->
         NL = [U],
-        writeln('Sesión iniciada con éxito.'),
+        writeln('Sesion iniciada con exito.'),
         system(N, CO, C, US, NL, NS)
     ;
     (\+ member(U, US) ->
@@ -52,8 +48,9 @@ systemLogin(S, U, NS) :-
         NS = S
     ;
     (\+ es_vacia(L) ->
-        writeln('Ya hay una sesión iniciada.'),
+        writeln('Ya hay una sesion iniciada.'),
         NS = S ))).
+
 systemLogout(S, NS) :-
     system_user(S, US),
     system_userlog(S, L),
@@ -62,12 +59,9 @@ systemLogout(S, NS) :-
     system_chatbots(S, C),
     (   \+ es_vacia(L) ->
         NL = [],
-        writeln('Sesión cerrada.'),
+        writeln('Sesion cerrada.'),
         system(N, CO, C, US, NL, NS)
     ;
     (   es_vacia(L) ->
-        writeln('No existe una sesión iniciada.'),
-        NS = S
-    )).
-
-
+        writeln('No existe una sesion iniciada.'),
+        NS = S)).

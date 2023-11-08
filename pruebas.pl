@@ -1,3 +1,4 @@
+%consult('TDA_option_213883658.pl').
 %predicado
 %Option(Code,Message , ChatbotCodeLink ,InitialFlowCodeLink , Keyword , Option)
 %flow(Id, Name, option ,flow)
@@ -8,7 +9,7 @@
 %systemLogin(system,user,system)
 %comillas'hola'
 % consultas
-%   option(1,hola,3,3,[hola,chao],O1),option(3,chao,3,3,[hola,chao],O2),flow(1,pepe,[O1],F1),flowaddoption(O2,F1,F2),flowaddoption(O1,F2,F3),flow(2,pedrp,[],F4),chatbot(1,prueba,bienvenido,0,[F4],C1),chatbotAddFlow(F3,C1,C2),system(sistemap,0,[C1],S1),systemAddUser(S1,milo,S2),systemAddUser(S2,mil,S3),systemLogin(S3,milo,S4),systemLogin(S4,mil,S5),systemLogout(S5,S6),systemLogout(S6,S7).
+%   option(1,hola,3,3,[hola,chao],O1),option(3,chao,3,3,[hola,chao],O2),flow(1,pepe,[O1,O1],F1),flowaddoption(O2,F1,F2),flowaddoption(O1,F2,F3),flow(2,pedrp,[],F4),chatbot(1,prueba,bienvenido,0,[F4,F4],C1),chatbotAddFlow(F3,C1,C2),system(sistemap,0,[C1,C1],S1),systemAddUser(S1,milo,S2),systemAddUser(S2,mil,S3),systemLogin(S3,milo,S4),systemLogin(S4,mil,S5),systemLogout(S5,S6),systemLogout(S6,S7).
 % utilidades
 %
 remove_element(_, [], []).
@@ -22,11 +23,11 @@ es_vacia([]).
 % contructores
 option(C, M, CH, I, K, [C, M, CH, I, K]).
 
-flow(I,N,O,[I,N,O]).
+flow(I,N,O,[I,N,OS]):- eliminar_repetidos(O,OS).
 
-chatbot(I,N,WM,SF,F,[I,N,WM,SF,F]).
+chatbot(I,N,WM,SF,F,[I,N,WM,SF,FS]):- eliminar_repetidos(F,FS).
 
-system(N,IC,C,[N,IC,C,[],[]]).
+system(N,IC,C,[N,IC,CS,[],[]]):- eliminar_repetidos(C,CS).
 system(N,IC,C,US,L,[N,IC,C,US,L]).
 
 %
@@ -35,7 +36,7 @@ option_code([Code, _, _, _, _], Code).
 
 flow_id([I,_,_],I).
 chatbot_id([I,_,_,_,_],I).
-system_chatbots([_,_,C|_],C).
+system_chatbots([_,_,C,_,_],C).
 system_name([N,_,_,_,_],N).
 system_codec([_,CO,_,_,_],CO).
 system_user([_,_,_,U,_],U).
@@ -121,7 +122,7 @@ systemLogin(S, U, NS) :-
     system_chatbots(S, C),
     (member(U, US), es_vacia(L) ->
         NL = [U],
-        writeln('Sesión iniciada con éxito.'),
+        writeln('Sesion iniciada con exito.'),
         system(N, CO, C, US, NL, NS)
     ;
     (\+ member(U, US) ->
@@ -129,7 +130,7 @@ systemLogin(S, U, NS) :-
         NS = S
     ;
     (\+ es_vacia(L) ->
-        writeln('Ya hay una sesión iniciada.'),
+        writeln('Ya hay una sesion iniciada.'),
         NS = S ))).
 systemLogout(S, NS) :-
     system_user(S, US),
@@ -139,10 +140,19 @@ systemLogout(S, NS) :-
     system_chatbots(S, C),
     (   \+ es_vacia(L) ->
         NL = [],
-        writeln('Sesión cerrada.'),
+        writeln('Sesion cerrada.'),
         system(N, CO, C, US, NL, NS)
     ;
     (   es_vacia(L) ->
-        writeln('No existe una sesión iniciada.'),
+        writeln('No existe una sesion iniciada.'),
         NS = S
     )).
+
+
+% Eliminar elementos repetidos de una lista
+eliminar_repetidos([], []).
+eliminar_repetidos([X|Xs], Ys) :-
+    eliminar_repetidos(Xs, Ys),
+    (member(X, Ys) ; (is_list(X), member(X, Ys))), !.
+eliminar_repetidos([X|Xs], [X|Ys]) :-
+    eliminar_repetidos(Xs, Ys).

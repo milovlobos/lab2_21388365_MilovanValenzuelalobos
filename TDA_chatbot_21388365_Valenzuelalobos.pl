@@ -1,11 +1,11 @@
-consult('TDA_option_213883658.pl').
+consult('TDA_extras_213883658_Valenzuelalobos.pl').
+consult('TDA_flow_213883658_Valenzuelalobos.pl').
 
 %tda
 % tipo:contructor
 % predicado:chatbot(chatbotID, name , welcomeMessage ,startFlowId ,flows,chabot)
-% Dominio:chatbotID(number), name(string) , welcomeMessage(string)
-% ,startFlowId(number) ,flows(lista de flujos),chabot(chatbot)
-% Meta:
+% Dominio:chatbotID(number), name(string) , welcomeMessage(string) startFlowId(number) ,flows(lista de flujos),chabot(chatbot)
+% Meta:predicado contructor de un chatbot
 %
 %
 % tipo:selector
@@ -22,9 +22,9 @@ consult('TDA_option_213883658.pl').
 %
 % tipo:modificador
 % Predicado:chatbotAddFlow
-% Dominio:flow(flujo),chatbot,newchatbot(chatbot con el flujo añadido
+% Dominio:flow(flujo),chatbot,newchatbot(chatbot con el flujo aï¿½adido
 % en caso que se pudo)
-% Meta:modificador para añadir flujos a un chatbot.
+% Meta:modificador para aï¿½adir flujos a un chatbot.
 
 
 %

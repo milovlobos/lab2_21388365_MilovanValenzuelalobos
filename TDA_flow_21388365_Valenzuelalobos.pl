@@ -1,27 +1,26 @@
-consult('TDA_option_213883658.pl').
+consult('TDA_option_213883658_Valenzuelalobos.pl').
+consult('TDA_extras_213883658_Valenzuelalobos.pl').
 %tda
 % tipo:contructor
-% Predicado:flow
-% Dominio:ID(number),Name(strin),Options (lista de opciones).
+%  Predicado:flow(ID,Name,Options,flujo)
+% Dominio:ID(number),Name(strin),Options (lista de opciones),flujo(lista).
 % Meta:predicado constructor de un flujo de un chatbot.
 %
 %
 % tipo:selector
-% Predicado:flow_id(flow, Id)
-% Dominio:flow(lista),Id(number)
+%  Predicado:flow_id(flow,Id)
+% Dominio:flow(lista ), Id(number)
 % Meta:obtener el id de un flujo
 
 %
 % tipo:modificador
-% Predicado:flowaddoption(option,flujo)
-% Dominio:opcion(lista), flujo(lista).
-% Meta:modificador para añadir opciones a un flujo, siempre y cuando no
-% se  repirta la id.
-%
-%tipo:pertenencia
-% Predicado:option_code_exists(code,options)
+% predicado:flowaddoption(opcion,flujo,newfujo)
+% Dominio:opcion(lista), flujo(lista),newflujo(lista)
+% Meta:modificador para aÃ±adir opciones a un flujo, siempre y cuando no se  repita la id.
+
+%  Predicado:option_code_exists
 % Dominio:codigo(number), options(lista de opciones)
-% meta:verificar si un el codigo proporcionado ya existe dentro de una
+% meta:verificar si un el codigo proporcionado ya existe dentro de la
 % lista de opciones
 
 
@@ -31,6 +30,7 @@ consult('TDA_option_213883658.pl').
 
 %clausulas
 flow(I,N,O,[I,N,O]).
+
 flow_id([I,_,_],I).
 
 
