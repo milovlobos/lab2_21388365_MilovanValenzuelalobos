@@ -71,10 +71,9 @@ systemAddChatbot(S,C,NS):-
     chatbot_id(C,ID),
     system_name(S,N),
     system_codec(S,CO),
-     (chatbot_id_existe(ID, CT) ->
-        system(N,CO,CT,NS) ;
-        add_to_end(C, CT, Newchatbots),
-        system(N,CO, Newchatbots,NS)).
+    \+ chatbot_id_existe(ID, CT),
+    add_to_end(C, CT, Newchatbots),
+    system(N,CO, Newchatbots,NS).
 
 chatbot_id_existe(ID,[C|_]):-
                   chatbot_id(C,I),

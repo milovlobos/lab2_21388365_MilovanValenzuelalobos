@@ -42,11 +42,10 @@ chatbot_flows([_, _, _, _, Flows], Flows).
 
 chatbotAddFlow(Flow, [ChatbotID, Name, WelcomeMessage, StartFlowID, Flows], NewChatbot):-
     flow_id(Flow, FlowID),
-    (flow_id_existe(FlowID, Flows) ->
-        chatbot(ChatbotID, Name, WelcomeMessage, StartFlowID, Flows,NewChatbot) ; % El flujo ya existe, no se agrega
-        add_to_end(Flow, Flows, NewFlows),
-        chatbot(ChatbotID, Name, WelcomeMessage, StartFlowID, NewFlows,NewChatbot)
-    ).
+    \+ flow_id_existe(FlowID, Flows),
+    add_to_end(Flow, Flows, NewFlows),
+    chatbot(ChatbotID, Name, WelcomeMessage, StartFlowID, NewFlows,NewChatbot)
+    .
 
 flow_id_existe(ID, [F | _]):- flow_id(F,I),ID=I.
 flow_id_existe(ID, [_ | Rest]) :-

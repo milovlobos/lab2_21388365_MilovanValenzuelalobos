@@ -32,14 +32,19 @@
 flow(I,N,O,[I,N,O]).
 
 flow_id([I,_,_],I).
+flow_options([_,_,O],O).
+flow_name([_,N,_],N).
 
 
-flowaddoption(Option, [Id, Name, Options], NewList) :-
+flowAddOption(Flujo,Option, NewList) :-
+    flow_options(Flujo,Options),
+    flow_id(Flujo,Id),
+    flow_name(Flujo,Name),
     option_code(Option, Code),                % Obtiene el codigo de la nueva opcion
     \+ option_code_exists(Code, Options),     % Verifica si el codigo de la nueva opcion no existe en la lista actual
     NewOptions = [Option | Options],         % Agrega la nueva opcion al principio de la lista de opciones
     flow(Id, Name, NewOptions,NewList).         % Construye la nueva lista con la opcopn agregada
-flowaddoption(_, OriginalList, OriginalList). % en caso de no poder agregar la nueva opcion ya que ya existe su codigo retorna la lista original
+
 
 
 

@@ -30,14 +30,13 @@
 
 systemAddUser(S, U, NS) :-
     system_user(S,US),
-     system_name(S,N),
-      system_codec(S,CO),
-       system_chatbots(S,C),
-        system_userlog(S,L),
-    (   member(U, US)
-    ->  NS = S
-    ;   add_to_end(U, US, NUS),
-        system(N,CO,C,NUS,L,NS) ).
+    system_name(S,N),
+    system_codec(S,CO),
+    system_chatbots(S,C),
+    system_userlog(S,L),
+    \+member(U, US),
+    add_to_end(U, US, NUS),
+    system(N,CO,C,NUS,L,NS) .
 
 systemLogin(S, U, NS) :-
     system_user(S, US),
@@ -45,18 +44,12 @@ systemLogin(S, U, NS) :-
     system_name(S, N),
     system_codec(S, CO),
     system_chatbots(S, C),
-    (member(U, US), es_vacia(L) ->
-        NL = [U],
-        writeln('Sesion iniciada con exito.'),
-        system(N, CO, C, US, NL, NS)
-    ;
-    (\+ member(U, US) ->
-        writeln('No existe el usuario'),
-        NS = S
-    ;
-    (\+ es_vacia(L) ->
-        writeln('Ya hay una sesion iniciada.'),
-        NS = S ))).
+    member(U, US), 
+    es_vacia(L) ,
+    NL = [U],
+    writeln('Sesion iniciada con exito.'),
+    system(N, CO, C, US, NL, NS).
+   
 
 systemLogout(S, NS) :-
     system_user(S, US),
@@ -64,13 +57,9 @@ systemLogout(S, NS) :-
     system_name(S, N),
     system_codec(S, CO),
     system_chatbots(S, C),
-    (   \+ es_vacia(L) ->
+     \+ es_vacia(L),
         NL = [],
         writeln('Sesion cerrada.'),
-        system(N, CO, C, US, NL, NS)
-    ;
-    (   es_vacia(L) ->
-        writeln('No existe una sesion iniciada.'),
-        NS = S)).
+        system(N, CO, C, US, NL, NS).
 
 es_vacia([]).
