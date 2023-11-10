@@ -1,4 +1,4 @@
-consult('TDA_option_213883658.pl').
+:-consult('TDA_option_21388365.pl').
 
 %tda
 % tipo:selector

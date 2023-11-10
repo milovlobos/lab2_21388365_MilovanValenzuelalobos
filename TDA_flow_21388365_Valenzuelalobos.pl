@@ -1,5 +1,5 @@
-consult('TDA_option_213883658_Valenzuelalobos.pl').
-consult('TDA_extras_213883658_Valenzuelalobos.pl').
+:-consult('TDA_option_21388365_Valenzuelalobos.pl').
+:-consult('TDA_extras_21388365_Valenzuelalobos.pl').
 %tda
 % tipo:contructor
 %  Predicado:flow(ID,Name,Options,flujo)

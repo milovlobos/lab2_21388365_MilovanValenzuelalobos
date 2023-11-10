@@ -1,4 +1,4 @@
-consult('TDA_extras_213883658_Valenzuelalobos.pl').
+:-consult('TDA_extras_21388365_Valenzuelalobos.pl').
 
 %tda option
 % predicados

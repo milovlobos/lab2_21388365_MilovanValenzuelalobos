@@ -1,5 +1,5 @@
-consult('TDA_system_213883658_Valenzuelalobos.pl').
-consult('TDA_extras_213883658_Valenzuelalobos.pl').
+:-consult('TDA_system_21388365_Valenzuelalobos.pl').
+:-consult('TDA_extras_21388365_Valenzuelalobos.pl').
 
 %tda user
 % tipo:contructor
@@ -17,9 +17,16 @@ consult('TDA_extras_213883658_Valenzuelalobos.pl').
 % Dominio:system(lista),newsystem(lista)
 % Meta:cerrar sesion dentro de un sistema
 
+% tipo:
+% Predicado:es_vacia([])
+% Dominio:lista es_vacia
+% Meta:ver si una lista es vacia
+
 
 %
 % clausulas
+
+
 
 systemAddUser(S, U, NS) :-
     system_user(S,US),
@@ -65,3 +72,5 @@ systemLogout(S, NS) :-
     (   es_vacia(L) ->
         writeln('No existe una sesion iniciada.'),
         NS = S)).
+
+es_vacia([]).
