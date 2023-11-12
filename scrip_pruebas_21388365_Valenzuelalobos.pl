@@ -19,5 +19,10 @@
 
 
 %ejemplos de cada funcion
-%
+% option(1,"videojuegos",2,1,["shooter","MMO","RPG"],OP1), option(2,"Ropa",2,3,["Pantalones","Poleras", "Gorros"],OP2),option(1, "Viajar", 2, 1, ["viajar", "turistear", "conocer"], OP3),flow(1,"flujo1",[OP1],F1),flow(2,"flujo2",[],F2),flow(3,"flujo3",[OP1,OP2],F3),flowAddOption(F1,OP2,F12),flowAddOption(F2,OP1,F22),%flowAddOption(F3,OP1,F32), este arrogara false por lo que si quiere ejecutar por completo elimine el esa funcionchatbot(0, "Inicial", "tiendas ", 1, [F12], C1), chatbot(1, "Inicial", "welcome", 1, [F22], C2),chatbot(2, "Inicial", "Bienvenido que te gustaria comprar ", 1, [], C3),chatbotAddFlow(C1,F22,C12),chatbotAddFlow,(C3,F12,C32),%chatbotAddFlow(C2,F22,C22), da falso system("Chatbots scrip", 0, [C12], S1),system("Chatbots 2", 1, [], S2), system("sistema para el fallo", 0, [C12], S0),systemAddChatbot(S1,C32,S12),systemAddChatbot(S2,C12,S22),%systemAddChatbot(S3,C12,S32),da false systemAddUser(S12,"camilo",S13),systemAddUser(S13,"milo",S14),%systemAddUser(S14,"camilo",S15),da falsosystemLogin(S14,"milo",S15), %systemLogin(S15,"CAMILO",S16),systemLogin(S22,"camilo",S23), ambas dan falso ya que un uno ya etsa una sesion iniciada y en otra no existe el usuario systemLogout(S15,S16),%systemLogout(S16,S17),systemLogout(S22,S24). ambas dan falso ya que no tienen sesiones iniciadas 
+%las demas funciones no las realice las funciones systemTalkRec, systemSynthesis, systemSimulate.
+
+%ejemplos de cada funcion sin los falses
+% option(1,"videojuegos",2,1,["shooter","MMO","RPG"],OP1), option(2,"Ropa",2,3,["Pantalones","Poleras", "Gorros"],OP2),option(1, "Viajar", 2, 1, ["viajar", "turistear", "conocer"], OP3),flow(1,"flujo1",[OP1],F1),flow(2,"flujo2",[],F2),flow(3,"flujo3",[OP1,OP2],F3),flowAddOption(F1,OP2,F12),flowAddOption(F2,OP1,F22),chatbot(0, "Inicial", "tiendas ", 1, [F12], C1), chatbot(1, "Inicial", "welcome", 1, [F22], C2),chatbot(2, "Inicial", "Bienvenido que te gustaria comprar ", 1, [], C3),chatbotAddFlow(C1, F22, C12), chatbotAddFlow(C3, F12, C32),system("Chatbots scrip", 0, [C12], S1),system("Chatbots 2", 1, [], S2), system("sistema para el fallo", 0, [C12], S0),systemAddChatbot(S1,C32,S12),systemAddChatbot(S2,C12,S22),systemAddUser(S12,"camilo",S13),systemAddUser(S13,"milo",S14),systemLogin(S14,"milo",S15).
+
 

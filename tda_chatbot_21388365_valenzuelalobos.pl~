@@ -19,21 +19,6 @@
 % Dominio:chatbot,flows(lista de flujos)
 % Meta:obtener la lista de flujos de un chatbot
 
-% tipo:selector
-% predicado:chatbot_name(chatbot, Name)
-% Dominio:chatbot(lista),NAME(string)
-% Meta:obtener el nombre de un chabot
-
-% tipo:selector
-% predicado:chatbot_message(chatbot, welcomeMessage)
-% Dominio:chatbot(lista), welcomeMessage(string)
-% Meta:obtener el mensaje de un chatbot
-
-% tipo:selector
-% predicado:chatbot_flowid(chatbot, StartFlowID)
-% Dominio:chatbot(lista), startFlowId(number)
-% Meta:obtener el startFlowId de un chatbot
-
 %
 % tipo:modificador
 % Predicado:chatbotAddFlow
@@ -58,12 +43,12 @@ chatbot_message([_,_,M,_,_],M).
 chatbot_flowid([_,_,_,SF,_],SF).
 
 
-chatbotAddFlow(Chatbot,Flow,NewChatbot):-
-    chabot_name(Chatbot,Name),
-    chatbot_message(Chatbot,WelcomeMessage),
-    chatbot_flowid(Chatbot,StartFlowID),
-    chatbot_flows(Chatbot,Flows),
-    chatbot_id(Chatbot,ChatbotID),
+chatbotAddFlow(C,flow, NewChatbot):-
+    chabot_name(C,Name),
+    chatbot_message(C,welcomeMessage),
+    chatbot_flowid(C,StartFlowID),
+    chatbot_flows(C,Flows),
+    chatbot_id(C,ChatbotID),
     flow_id(Flow, FlowID),
     \+ flow_id_existe(FlowID, Flows),
     add_to_end(Flow, Flows, NewFlows),
